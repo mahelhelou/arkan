@@ -1,0 +1,24 @@
+/*
+Theme Name: Arkan
+Theme URI: https://example.com/arkan
+Author: Mahmoud Elhelou
+Author URI: https://example.com
+Description: Arkan is an architecture and interior design WordPress theme converted from the ArchSan HTML template. It ships Projects, Services, Team and Testimonials post types, an ACF-driven front page, and Contact Form 7 integration.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: arkan
+Tags: architecture, portfolio, one-column, two-columns, right-sidebar, custom-menu, custom-logo, featured-images, translation-ready
+*/
+
+/*
+ * NOTE
+ * ----
+ * This file exists because WordPress requires a style.css with a theme header.
+ * The actual design lives in assets/css/style.css and assets/css/wp-overrides.css,
+ * both of which are enqueued from inc/enqueue.php.
+ * Do not add rules here; they are NOT loaded on the front end.
+ */

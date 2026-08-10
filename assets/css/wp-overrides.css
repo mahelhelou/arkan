@@ -1,0 +1,580 @@
+/* ------------------------------------------------------------------
+   Arkan — WordPress-specific styles
+
+   The original template had no WordPress markup, so everything WP
+   outputs on its own (CF7 forms, comment list, core alignment and
+   caption classes, admin bar, accessibility helpers) is styled here
+   to sit inside the ArchSan design.
+
+   Palette
+   -------
+   background  #1b1b1b
+   body text   #999
+   accent      #c5a47e
+   headings    #fff
+------------------------------------------------------------------- */
+
+:root {
+	--arkan-bg: #1b1b1b;
+	--arkan-text: #999;
+	--arkan-accent: #c5a47e;
+	--arkan-white: #fff;
+	--arkan-border: rgba(255, 255, 255, .1);
+}
+
+/* ==================================================================
+   1. Accessibility helpers
+   ================================================================== */
+
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+	background-color: #1b1b1b;
+	border-radius: 3px;
+	clip: auto !important;
+	clip-path: none;
+	color: var(--arkan-accent);
+	display: block;
+	font-size: 14px;
+	height: auto;
+	left: 20px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 20px;
+	width: auto;
+	z-index: 100000;
+}
+
+/* ==================================================================
+   2. Admin bar
+   ================================================================== */
+
+body.admin-bar .navbar.nav-scroll {
+	top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar .navbar.nav-scroll {
+		top: 46px;
+	}
+}
+
+/* ==================================================================
+   3. Core content classes (alignment, captions, galleries, embeds)
+   ================================================================== */
+
+.entry-content > *:last-child {
+	margin-bottom: 0;
+}
+
+.alignleft {
+	float: left;
+	margin: 0 30px 20px 0;
+	max-width: 50%;
+}
+
+.alignright {
+	float: right;
+	margin: 0 0 20px 30px;
+	max-width: 50%;
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin: 0 auto 20px;
+}
+
+.alignwide {
+	margin-left: -60px;
+	margin-right: -60px;
+	max-width: none;
+	width: auto;
+}
+
+.alignfull {
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	max-width: 100vw;
+	width: 100vw;
+}
+
+.entry-content img,
+.wp-caption img {
+	height: auto;
+	max-width: 100%;
+}
+
+.wp-caption {
+	margin-bottom: 25px;
+	max-width: 100%;
+}
+
+.wp-caption-text,
+.wp-block-image figcaption,
+figcaption {
+	color: var(--arkan-text);
+	font-size: 13px;
+	font-style: italic;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.wp-block-gallery figcaption {
+	background: none;
+}
+
+.entry-content blockquote,
+.wp-block-quote {
+	border-left: 2px solid var(--arkan-accent);
+	color: #ddd;
+	font-size: 17px;
+	font-style: italic;
+	margin: 30px 0;
+	padding: 5px 0 5px 25px;
+}
+
+.entry-content blockquote cite,
+.wp-block-quote cite {
+	color: var(--arkan-accent);
+	display: block;
+	font-size: 13px;
+	font-style: normal;
+	margin-top: 10px;
+	text-transform: uppercase;
+}
+
+.entry-content ul,
+.entry-content ol {
+	margin: 0 0 25px 20px;
+}
+
+.entry-content li {
+	margin-bottom: 8px;
+}
+
+.entry-content table,
+.wp-block-table table {
+	border-collapse: collapse;
+	margin-bottom: 25px;
+	width: 100%;
+}
+
+.entry-content th,
+.entry-content td {
+	border: 1px solid var(--arkan-border);
+	padding: 10px 14px;
+}
+
+.entry-content th {
+	color: var(--arkan-white);
+	font-weight: 400;
+}
+
+.entry-content pre,
+.wp-block-code {
+	background: rgba(255, 255, 255, .04);
+	border: 1px solid var(--arkan-border);
+	color: #ddd;
+	font-size: 13px;
+	margin-bottom: 25px;
+	overflow-x: auto;
+	padding: 20px;
+}
+
+.entry-content code {
+	background: rgba(255, 255, 255, .06);
+	color: var(--arkan-accent);
+	padding: 2px 6px;
+}
+
+.wp-block-separator,
+.entry-content hr {
+	border: 0;
+	border-top: 1px solid var(--arkan-border);
+	margin: 40px 0;
+}
+
+.sticky .wrap {
+	border: 1px solid var(--arkan-accent);
+}
+
+.page-links {
+	margin: 20px 0;
+}
+
+.page-links a,
+.page-links > span {
+	border: 1px solid var(--arkan-border);
+	display: inline-block;
+	margin-right: 5px;
+	padding: 4px 12px;
+}
+
+.page-links a:hover,
+.page-links > span {
+	border-color: var(--arkan-accent);
+	color: var(--arkan-accent);
+}
+
+/* ==================================================================
+   4. Pagination
+
+   The template only styled .blog .pagination-wrap li a, and WordPress
+   renders the current page as a <span class="page-numbers current">.
+   These rules cover both, on every archive.
+   ================================================================== */
+
+.pagination-wrap {
+	list-style: none;
+	margin-bottom: 0;
+	padding: 30px 0 0;
+}
+
+.pagination-wrap li {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.pagination-wrap li .page-numbers {
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, .03);
+	border-radius: 100%;
+	color: var(--arkan-text);
+	display: inline-block;
+	font-weight: 400;
+	height: 40px;
+	line-height: 38px;
+	text-align: center;
+	width: 40px;
+}
+
+.pagination-wrap li a.page-numbers:hover {
+	border-color: var(--arkan-accent);
+	color: var(--arkan-accent);
+}
+
+.pagination-wrap li .page-numbers.current {
+	border-color: var(--arkan-accent);
+	color: var(--arkan-accent);
+}
+
+.pagination-wrap li .page-numbers.dots {
+	border-color: transparent;
+}
+
+.pagination-wrap li .page-numbers i {
+	font-size: 11px;
+}
+
+.comments .pagination-wrap {
+	padding-top: 25px;
+}
+
+.comments .pagination-wrap .nav-links {
+	display: flex;
+	gap: 8px;
+	justify-content: center;
+}
+
+/* ==================================================================
+   5. Sidebar — WP widget markup inside .sidebar
+   ================================================================== */
+
+.sidebar .search-box form {
+	position: relative;
+}
+
+.sidebar .search-box .search-submit {
+	background: none;
+	border: 0;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.sidebar .search-box .search-submit .icon {
+	color: var(--arkan-text);
+	position: static;
+	transform: none;
+}
+
+.sidebar .search-box .search-submit:hover .icon {
+	color: var(--arkan-accent);
+}
+
+.sidebar .widget ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sidebar .widget ul li {
+	border-bottom: 1px solid var(--arkan-border);
+	padding: 10px 0;
+}
+
+.sidebar .widget ul li:last-child {
+	border-bottom: 0;
+}
+
+.sidebar .widget ul li a {
+	color: var(--arkan-text);
+}
+
+.sidebar .widget ul li a:hover {
+	color: var(--arkan-accent);
+}
+
+.sidebar .widget .wp-block-search__inside-wrapper,
+.sidebar .widget select {
+	background: transparent;
+	border: 1px solid var(--arkan-border);
+	color: var(--arkan-text);
+	padding: 8px;
+	width: 100%;
+}
+
+.sidebar .widget .tagcloud a,
+.sidebar .widget .wp-block-tag-cloud a {
+	border: 1px solid var(--arkan-border);
+	display: inline-block;
+	font-size: 12px !important;
+	margin: 0 5px 8px 0;
+	padding: 5px 12px;
+}
+
+.sidebar .widget .tagcloud a:hover,
+.sidebar .widget .wp-block-tag-cloud a:hover {
+	background: var(--arkan-accent);
+	border-color: var(--arkan-accent);
+	color: #1b1b1b;
+}
+
+/* ==================================================================
+   6. Comments — WP list markup inside the design's .comments block
+   ================================================================== */
+
+.comments .comment-list,
+.comments .comment-list .children {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.comments .comment-list .children {
+	margin-left: 40px;
+}
+
+.comments .comment-item {
+	margin-bottom: 10px;
+}
+
+.comments .wrap .user img {
+	border-radius: 50%;
+	height: 80px;
+	object-fit: cover;
+	width: 80px;
+}
+
+.comments .con p:last-of-type {
+	margin-bottom: 10px;
+}
+
+.comments .comment-awaiting-moderation {
+	color: var(--arkan-accent);
+	font-size: 13px;
+}
+
+.comments .comment-respond .comment-reply-title {
+	margin-bottom: 0;
+}
+
+.comments .comment-respond #cancel-comment-reply-link {
+	color: var(--arkan-accent);
+	font-size: 13px;
+	margin-left: 10px;
+}
+
+.comments .comment-form-cookies-consent {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	font-size: 13px;
+	margin-top: 10px;
+}
+
+.comments .comment-form-cookies-consent label {
+	margin: 0;
+}
+
+.comments .logged-in-as {
+	font-size: 13px;
+	margin-bottom: 15px;
+}
+
+.comments .no-comments {
+	font-style: italic;
+}
+
+/* ==================================================================
+   7. Contact Form 7
+   ================================================================== */
+
+.wpcf7 form .wpcf7-response-output {
+	border: 1px solid var(--arkan-accent);
+	color: var(--arkan-white);
+	margin: 20px 0 0;
+	padding: 12px 16px;
+}
+
+.wpcf7 form.invalid .wpcf7-response-output,
+.wpcf7 form.unaccepted .wpcf7-response-output {
+	border-color: #d9534f;
+}
+
+.wpcf7-not-valid-tip {
+	color: #d9534f;
+	display: block;
+	font-size: 12px;
+	margin-top: 6px;
+}
+
+.wpcf7-spinner {
+	vertical-align: middle;
+}
+
+/* CF7 wraps every field in a <span>; make it behave like a block. */
+.wpcf7 .wpcf7-form-control-wrap {
+	display: block;
+	width: 100%;
+}
+
+/* The Let's Talk bar reuses .line-gray inputs. */
+.lets-talk .wpcf7 input[type="text"],
+.lets-talk .wpcf7 input[type="email"],
+.lets-talk .wpcf7 input[type="tel"],
+.lets-talk .wpcf7 textarea {
+	width: 100%;
+}
+
+.lets-talk .wpcf7 .wpcf7-list-item {
+	margin: 0;
+}
+
+.lets-talk .wpcf7 .wpcf7-list-item-label {
+	color: #fff;
+	font-size: 14px;
+	margin-left: 8px;
+}
+
+/* Contact page form matches the stacked layout of contact.html. */
+.contact .wpcf7 input[type="text"],
+.contact .wpcf7 input[type="email"],
+.contact .wpcf7 input[type="tel"],
+.contact .wpcf7 textarea {
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.contact .wpcf7 input[type="submit"] {
+	width: auto;
+}
+
+/* Message shown to admins when no form ID is configured. */
+.arkan-editor-note {
+	border: 1px dashed var(--arkan-border);
+	color: var(--arkan-accent);
+	font-size: 13px;
+	padding: 14px 18px;
+}
+
+/* ==================================================================
+   8. Footer menu
+   ================================================================== */
+
+.footer .bottom .footer-menu {
+	display: flex;
+	gap: 20px;
+	justify-content: flex-end;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.footer .bottom .footer-menu a {
+	color: var(--arkan-text);
+	font-size: 13px;
+}
+
+.footer .bottom .footer-menu a:hover {
+	color: var(--arkan-accent);
+}
+
+.footer .item .phone a,
+.footer .item .mail a,
+.contact .phone a,
+.contact .mail a {
+	color: inherit;
+}
+
+.footer .item .phone a:hover,
+.footer .item .mail a:hover,
+.contact .phone a:hover,
+.contact .mail a:hover {
+	color: var(--arkan-accent);
+}
+
+/* ==================================================================
+   9. Menu — the walker adds .active where the template used it
+   ================================================================== */
+
+.navbar .navbar-nav .dropdown-menu .dropdown-item.active,
+.navbar .navbar-nav .nav-link.active {
+	color: var(--arkan-accent);
+}
+
+/* ==================================================================
+   10. Misc
+   ================================================================== */
+
+/* Services cards use an inline background when a featured image exists. */
+.services .item {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* Projects archive filter is a set of real links, not JS filters. */
+.projects2-filter li a {
+	color: inherit;
+}
+
+.projects2-filter li.active a,
+.projects2-filter li a:hover {
+	color: var(--arkan-accent);
+}
+
+/* Search form used by the "no results" template. */
+.arkan-search-form input[type="search"] {
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+.no-results .con {
+	padding: 30px 0;
+}
