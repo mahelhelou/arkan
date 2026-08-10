@@ -27,11 +27,16 @@
 
 ------------------------------------------ */
 
-(function () {
+/*
+ * WP: WordPress ships jQuery in noConflict mode, so the global `$` does NOT
+ * exist on the front end. The original template relied on it. jQuery is passed
+ * in as `$` here so every `$(...)` below keeps working unchanged.
+ */
+(function ($) {
     "use strict";
-    
+
     var wind = $(window);
-    
+
     // scrollIt
     $.scrollIt({
       upKey: 38,                // key code to navigate to the next section
@@ -574,5 +579,9 @@
     }
 
     DURU.init();
-    
-})();
+
+    // WP: tells assets/js/wp-safety.js that initialisation completed, so it
+    // does not need to force the preloader down and reveal the content.
+    window.arkanScriptReady = true;
+
+})(jQuery);

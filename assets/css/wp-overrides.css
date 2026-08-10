@@ -23,6 +23,31 @@
 }
 
 /* ==================================================================
+   0. Fail-safes
+
+   The preloader is a full-screen overlay removed only by JavaScript, and
+   .js .animate-box starts at opacity 0. If the theme JS ever fails, the
+   visitor sees a blank dark screen. These rules guarantee the content
+   still appears.
+   ================================================================== */
+
+/* Set by assets/js/wp-safety.js when script.js did not finish. */
+html.arkan-js-fallback #preloader,
+html.arkan-js-fallback .preloader-bg {
+	display: none !important;
+}
+
+html.arkan-js-fallback .animate-box {
+	opacity: 1 !important;
+}
+
+/* JavaScript disabled entirely: the overlay would otherwise never lift. */
+.no-js #preloader,
+.no-js .preloader-bg {
+	display: none !important;
+}
+
+/* ==================================================================
    1. Accessibility helpers
    ================================================================== */
 

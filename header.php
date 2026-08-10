@@ -15,6 +15,14 @@ defined( 'ABSPATH' ) || exit;
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<?php wp_head(); ?>
+	<noscript>
+		<style>
+			/* Without JS the preloader overlay would never be removed. */
+			#preloader,
+			.preloader-bg { display: none !important; }
+			.animate-box { opacity: 1 !important; }
+		</style>
+	</noscript>
 </head>
 
 <body <?php body_class(); ?>>

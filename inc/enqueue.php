@@ -87,6 +87,20 @@ function arkan_enqueue_assets() {
 		)
 	);
 
+	/*
+	 * Safety net. Loaded after script.js and deliberately dependency-free, so a
+	 * fatal error inside script.js cannot stop it running. It removes the
+	 * full-screen preloader and reveals .animate-box content if script.js never
+	 * finished — without it, one JS error renders the whole site blank.
+	 */
+	wp_enqueue_script(
+		'arkan-safety',
+		$js . 'wp-safety.js',
+		array(),
+		ARKAN_VERSION,
+		true
+	);
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}

@@ -22,10 +22,14 @@ strings — but nothing is editable. An admin notice reminds you which plugin is
 
 ## 2. Install
 
-1. Copy the `arkan` folder to `wp-content/themes/arkan`.
+1. Copy this folder to `wp-content/themes/arkan` (the theme root is the folder
+   containing `style.css` and `functions.php`).
 2. Activate **Appearance → Themes → Arkan**.
 3. Install and activate **ACF PRO** and **Contact Form 7**.
 4. Visit **Settings → Permalinks** and click Save once (registers the `projects/` and `services/` URLs).
+
+> `frontend/` holds the original HTML template and is **not used at runtime**.
+> It adds ~8 MB to the theme; delete it before deploying if you don't need the reference.
 
 ---
 
@@ -161,7 +165,7 @@ Comments use WordPress' native `comment_form()`, restyled in `comments.php` and
 ## 6. File map
 
 ```
-arkan/
+<theme root>/
 ├── style.css                   theme header only (design lives in assets/css/style.css)
 ├── functions.php               setup, menus, image sizes, sidebars, includes
 ├── screenshot.png
@@ -191,19 +195,23 @@ arkan/
 
 ## 7. Changes made to the original template assets
 
-Only three edits were made to `assets/js/script.js`; everything else is byte-identical to
-`frontend/`.
+Four edits were made to `assets/js/script.js`; everything else is byte-identical to `frontend/`.
+See §8 if the site ever renders blank.
 
-1. **Logo path** — the scroll handler hardcoded `images/logo.png`. It now reads the URL injected
+1. **jQuery wrapper (critical)** — the template's IIFE was `(function () { ... $(window) ... })();`,
+   relying on a global `$`. **WordPress ships jQuery in noConflict mode, so `$` does not exist on the
+   front end.** The wrapper is now `(function ($) { ... })(jQuery);`. See §9.
+2. **Logo path** — the scroll handler hardcoded `images/logo.png`. It now reads the URL injected
    from PHP (`wp_localize_script` → `arkanVars`), so the Customizer logo is respected.
-2. **Scroll-to-top ring** — `document.querySelector('.progress-wrap path')` threw when the ring was
+3. **Scroll-to-top ring** — `document.querySelector('.progress-wrap path')` threw when the ring was
    absent, which killed every script after it. It is now guarded, so the ring can be switched off in
    Theme Options.
-3. **Contact AJAX** — the legacy `.contact__form` handler now excludes `.wpcf7-form` so it can never
+4. **Contact AJAX** — the legacy `.contact__form` handler now excludes `.wpcf7-form` so it can never
    fight with Contact Form 7's own AJAX.
 
-Two new files were added:
+New files:
 
+- `assets/js/wp-safety.js` — dependency-free fail-safe (see §9)
 - `assets/css/wp-overrides.css` — styles for everything WordPress emits that the template never had
   (CF7, comment list, core alignment/caption/gallery classes, pagination `<span class="current">`,
   admin bar offset, screen-reader helpers, footer menu)
@@ -212,7 +220,47 @@ Two new files were added:
 
 ---
 
-## 8. Notes and known limits
+## 8. Troubleshooting: blank / all-dark page
+
+**Symptom.** The site loads but shows nothing — a solid dark screen, no header, no footer.
+
+**Why this template is prone to it.** Two rules in `assets/css/style.css` make the theme's
+JavaScript a single point of failure:
+
+```css
+.preloader-bg, #preloader { position: fixed; width: 100%; height: 100%;
+                            background: #1b1b1b; z-index: 999999; }
+.js .animate-box          { opacity: 0; }
+```
+
+The preloader is a full-screen opaque overlay that is **only** removed by
+`$("#preloader").fadeOut(700)` in `script.js`, and most sections start invisible until the Waypoints
+handler in the same file reveals them. So *any* uncaught error in `script.js` — a jQuery clash, a
+plugin conflict, a blocked asset — produces a completely blank dark page with no clue as to why.
+
+**The original cause here** was the jQuery wrapper (§7.1): `$` is undefined under WordPress, so
+`var wind = $(window);` threw `TypeError: $ is not a function` on the first line of the IIFE.
+
+**What now prevents a recurrence.** `assets/js/wp-safety.js` is enqueued with **no dependencies**, so
+it still runs even when `script.js` dies. `script.js` sets `window.arkanScriptReady = true` on its
+last line; if that flag is missing ~2.5s after `load`, the safety script hides the preloader, adds
+`arkan-js-fallback` to `<html>` (which forces `.animate-box` visible), and logs a clear warning to
+the console. There is also a hard 8s ceiling and a `<noscript>` fallback in `header.php`.
+
+Worst case is now a site **without scroll animations**, never a blank one.
+
+**If you still see a blank page**, check in this order:
+
+1. Browser console — the safety net prints `[Arkan] Theme JavaScript did not finish initialising…`
+   followed by the real error.
+2. If the page is blank *and* the console is empty, it is a PHP fatal, not JS. Set
+   `define( 'WP_DEBUG', true ); define( 'WP_DEBUG_DISPLAY', true );` in `wp-config.php` to see it.
+3. Confirm ACF PRO is active — without it the theme renders demo fallbacks, but never blank.
+
+---
+
+## 9. Notes and known limits
+
 
 - The theme targets **one homepage layout** (`index.html`). The other ten variants in `frontend/`
   are not converted; each would become an extra file in `page-templates/` reusing the same
