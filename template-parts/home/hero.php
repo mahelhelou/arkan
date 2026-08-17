@@ -57,7 +57,12 @@ if ( empty( $slides ) ) {
 	}
 }
 
+// Nothing to show: the slider markup would collapse to a 0px header, so print
+// the empty-state notice in its place instead of an invisible element.
 if ( empty( $slides ) ) {
+	echo '<div class="container section-padding">';
+	arkan_empty_notice( __( 'slides or projects', 'arkan' ), __( 'Projects', 'arkan' ) );
+	echo '</div>';
 	return;
 }
 ?>

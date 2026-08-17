@@ -30,6 +30,12 @@ $images = arkan_field( 'gallery_images', $page_id, array() );
 		);
 		?>
 
+		<?php if ( empty( $images ) ) : ?>
+			<div class="row">
+				<?php arkan_empty_notice( __( 'images', 'arkan' ), __( 'the “Gallery Page” panel on this page', 'arkan' ), 'col-md-12' ); ?>
+			</div>
+		<?php endif; ?>
+
 		<?php if ( ! empty( $images ) ) : ?>
 			<div class="row archsan-popup-gallery">
 				<?php

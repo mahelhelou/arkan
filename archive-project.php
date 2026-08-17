@@ -67,9 +67,9 @@ $offset = ( $paged - 1 ) * (int) arkan_option( 'projects_per_page', 9 );
 					<?php
 				endwhile;
 			else :
-				?>
-				<div class="col-md-12"><p><?php esc_html_e( 'No projects have been published yet.', 'arkan' ); ?></p></div>
-			<?php endif; ?>
+				arkan_empty_notice( __( 'projects', 'arkan' ), __( 'Projects', 'arkan' ), 'col-md-12' );
+			endif;
+			?>
 		</div>
 
 		<?php arkan_pagination(); ?>

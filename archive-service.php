@@ -34,9 +34,9 @@ arkan_banner(
 					<?php
 				endwhile;
 			else :
-				?>
-				<div class="col-md-12"><p><?php esc_html_e( 'No services have been published yet.', 'arkan' ); ?></p></div>
-			<?php endif; ?>
+				arkan_empty_notice( __( 'services', 'arkan' ), __( 'Services', 'arkan' ), 'col-md-12' );
+			endif;
+			?>
 		</div>
 	</div>
 </section>

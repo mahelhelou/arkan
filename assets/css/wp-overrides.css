@@ -529,6 +529,34 @@ figcaption {
 }
 
 /* ==================================================================
+   7b. Empty states
+
+   Printed by arkan_empty_notice() when a section has no content.
+   Visitors get a plain sentence; editors get the dashboard hint in a
+   dashed box so it is obviously a back-office message.
+   ================================================================== */
+
+.arkan-empty {
+	color: var(--arkan-text);
+	margin: 0;
+	padding: 10px 0;
+}
+
+.arkan-empty--editor {
+	border: 1px dashed var(--arkan-border);
+	border-radius: 2px;
+	color: var(--arkan-accent);
+	font-size: 14px;
+	padding: 16px 20px;
+}
+
+/* Inside the dark overlay sections the accent needs more contrast. */
+.testimonials .arkan-empty,
+.lets-talk .arkan-empty {
+	color: var(--arkan-white);
+}
+
+/* ==================================================================
    8. Footer menu
    ================================================================== */
 

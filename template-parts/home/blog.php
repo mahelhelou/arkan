@@ -24,11 +24,6 @@ $query = new WP_Query(
 	)
 );
 
-if ( ! $query->have_posts() ) {
-	wp_reset_postdata();
-	return;
-}
-
 $subtitle = arkan_field( 'home_blog_subtitle', $page_id );
 $title    = arkan_field( 'home_blog_title', $page_id );
 
@@ -49,7 +44,9 @@ $is_carousel = $query->post_count > 3;
 		?>
 
 		<div class="row">
-			<?php if ( $is_carousel ) : ?>
+			<?php if ( ! $query->have_posts() ) : ?>
+				<?php arkan_empty_notice( __( 'posts', 'arkan' ), __( 'Posts', 'arkan' ), 'col-md-12' ); ?>
+			<?php elseif ( $is_carousel ) : ?>
 				<div class="col-md-12">
 					<div class="owl-carousel owl-theme">
 						<?php

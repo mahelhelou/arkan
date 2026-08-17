@@ -82,7 +82,10 @@ def check_file(path):
     if not raw.lstrip().startswith('<?php'):
         problems.append('does not start with <?php')
 
-    if '?>' in raw and raw.rstrip().endswith('?>'):
+    # WordPress style: omit the closing ?> only in files that are pure PHP.
+    # Mixed templates legitimately end with markup or `<?php endif; ?>`.
+    is_php_only = raw.count('<?php') == 1
+    if is_php_only and raw.rstrip().endswith('?>'):
         problems.append('has a trailing ?> (should be omitted in PHP-only files)')
 
     code = strip_php(raw)

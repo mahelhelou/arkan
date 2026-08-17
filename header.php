@@ -60,46 +60,6 @@ defined( 'ABSPATH' ) || exit;
 
 	<a class="screen-reader-text skip-link" href="#content"><?php esc_html_e( 'Skip to content', 'arkan' ); ?></a>
 
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg">
-		<div class="container">
-
-			<div class="logo-wrapper">
-				<?php if ( has_custom_logo() ) : ?>
-					<a class="logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-						<?php
-						$arkan_logo_id  = (int) get_theme_mod( 'custom_logo' );
-						$arkan_logo_url = $arkan_logo_id ? wp_get_attachment_image_url( $arkan_logo_id, 'full' ) : '';
-						?>
-						<img src="<?php echo esc_url( $arkan_logo_url ); ?>" class="logo-img" alt="<?php bloginfo( 'name' ); ?>">
-					</a>
-				<?php else : ?>
-					<a class="logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-						<h2><?php bloginfo( 'name' ); ?> <span><?php bloginfo( 'description' ); ?></span></h2>
-					</a>
-				<?php endif; ?>
-			</div>
-
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php esc_attr_e( 'Toggle navigation', 'arkan' ); ?>">
-				<span class="navbar-toggler-icon"><i class="ti-menu"></i></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbar">
-				<?php
-				wp_nav_menu(
-					array(
-						'theme_location' => 'primary',
-						'container'      => false,
-						'menu_class'     => 'navbar-nav ms-auto',
-						'depth'          => 3,
-						'walker'         => new Arkan_Nav_Walker(),
-						'fallback_cb'    => array( 'Arkan_Nav_Walker', 'fallback' ),
-					)
-				);
-				?>
-			</div>
-
-		</div>
-	</nav>
+	<?php get_template_part( 'template-parts/global/navbar' ); ?>
 
 	<div id="content" class="site-content">

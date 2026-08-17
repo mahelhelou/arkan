@@ -39,10 +39,14 @@ function arkan_setup() {
 		)
 	);
 
+	/*
+	 * The primary navbar is hardcoded in template-parts/global/navbar.php to
+	 * mirror frontend/index.html exactly, so no "primary" menu location is
+	 * registered. Only the small footer link row is editable.
+	 */
 	register_nav_menus(
 		array(
-			'primary' => __( 'Primary Menu', 'arkan' ),
-			'footer'  => __( 'Footer Bottom Menu', 'arkan' ),
+			'footer' => __( 'Footer Bottom Menu', 'arkan' ),
 		)
 	);
 
@@ -84,8 +88,9 @@ add_action( 'widgets_init', 'arkan_widgets_init' );
 
 require ARKAN_DIR . 'inc/helpers.php';
 require ARKAN_DIR . 'inc/enqueue.php';
-require ARKAN_DIR . 'inc/nav-walker.php';
+require ARKAN_DIR . 'inc/nav.php';
 require ARKAN_DIR . 'inc/post-types.php';
+require ARKAN_DIR . 'inc/acf-location.php';
 require ARKAN_DIR . 'inc/acf-fields.php';
 require ARKAN_DIR . 'inc/template-tags.php';
 require ARKAN_DIR . 'inc/comment-walker.php';

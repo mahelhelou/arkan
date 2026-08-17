@@ -33,6 +33,12 @@ $steps = arkan_field( 'process_steps', $page_id, array() );
 		);
 		?>
 
+		<?php if ( empty( $steps ) ) : ?>
+			<div class="row">
+				<?php arkan_empty_notice( __( 'steps', 'arkan' ), __( 'the “Process Page” panel on this page', 'arkan' ), 'col-md-12' ); ?>
+			</div>
+		<?php endif; ?>
+
 		<?php
 		$index = 0;
 		foreach ( (array) $steps as $step ) :

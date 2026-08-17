@@ -112,6 +112,53 @@ function arkan_contact_form( $form_id ) {
 }
 
 /**
+ * Empty-state message for a section that has no content yet.
+ *
+ * Site editors get an actionable hint naming the dashboard screen to use.
+ * Visitors get a plain sentence — back-office instructions are not shown to
+ * the public. Return false from the 'arkan_show_empty_notice' filter to hide
+ * the block entirely.
+ *
+ * @param string $plural    Lowercase plural of the item, e.g. 'projects'.
+ * @param string $dashboard Dashboard menu label, e.g. 'Projects'.
+ * @param string $wrapper   Optional Bootstrap column wrapper, e.g. 'col-md-12'.
+ */
+function arkan_empty_notice( $plural, $dashboard, $wrapper = '' ) {
+	if ( ! apply_filters( 'arkan_show_empty_notice', true, $plural, $dashboard ) ) {
+		return;
+	}
+
+	$can_edit = current_user_can( 'edit_posts' );
+
+	if ( $can_edit ) {
+		$message = sprintf(
+			/* translators: 1: plural item name e.g. "projects", 2: dashboard menu label e.g. "Projects" */
+			__( 'No %1$s found. You can add an item from %2$s in the dashboard.', 'arkan' ),
+			$plural,
+			$dashboard
+		);
+	} else {
+		$message = sprintf(
+			/* translators: %s: plural item name e.g. "projects" */
+			__( 'No %s found.', 'arkan' ),
+			$plural
+		);
+	}
+
+	$html = sprintf(
+		'<p class="arkan-empty%s">%s</p>',
+		$can_edit ? ' arkan-empty--editor' : '',
+		esc_html( $message )
+	);
+
+	if ( $wrapper ) {
+		$html = sprintf( '<div class="%s">%s</div>', esc_attr( $wrapper ), $html );
+	}
+
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above.
+}
+
+/**
  * Excerpt limited to a word count, safe for any post object.
  *
  * @param int $words   Word count.

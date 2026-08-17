@@ -13,13 +13,8 @@ if ( ! arkan_field( 'home_projects_enabled', $page_id, true ) ) {
 	return;
 }
 
-$count   = (int) arkan_field( 'home_projects_count', $page_id, 6 );
-$query   = arkan_query( 'project', $count );
-
-if ( ! $query->have_posts() ) {
-	wp_reset_postdata();
-	return;
-}
+$count = (int) arkan_field( 'home_projects_count', $page_id, 6 );
+$query = arkan_query( 'project', $count );
 
 $subtitle    = arkan_field( 'home_projects_subtitle', $page_id );
 $title       = arkan_field( 'home_projects_title', $page_id );
@@ -28,7 +23,7 @@ $show_filter = arkan_field( 'home_projects_filter', $page_id, true );
 
 // Collect the categories actually used by the projects being shown.
 $used_terms = array();
-if ( $show_filter ) {
+if ( $show_filter && $query->have_posts() ) {
 	foreach ( $query->posts as $arkan_project ) {
 		$terms = get_the_terms( $arkan_project->ID, 'project_category' );
 		if ( $terms && ! is_wp_error( $terms ) ) {
@@ -62,6 +57,12 @@ if ( $show_filter ) {
 						<li data-filter=".<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $name ); ?></li>
 					<?php endforeach; ?>
 				</ul>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( ! $query->have_posts() ) : ?>
+			<div class="row">
+				<?php arkan_empty_notice( __( 'projects', 'arkan' ), __( 'Projects', 'arkan' ), 'col-md-12' ); ?>
 			</div>
 		<?php endif; ?>
 

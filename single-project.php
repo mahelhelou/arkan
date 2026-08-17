@@ -111,6 +111,8 @@ while ( have_posts() ) :
 		array( 'post__not_in' => array( $post_id ) )
 	);
 
+	// With only one project published there is nothing to cross-link to, so the
+	// whole section is skipped rather than showing an empty carousel.
 	if ( $others->have_posts() ) :
 		?>
 		<section class="projects section-padding">

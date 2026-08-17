@@ -88,6 +88,39 @@ function arkan_acf_social_subfields( $prefix ) {
 }
 
 /**
+ * Location rules for a page-level field group.
+ *
+ * Matches EITHER the assignable page template OR the page slug, because the
+ * theme resolves About/Contact/etc. through page-{slug}.php in the template
+ * hierarchy, where no template is assigned. See inc/acf-location.php.
+ *
+ * @param string $template Template file name, e.g. 'template-about.php'.
+ * @param string $slug     Page slug key, e.g. 'about'.
+ * @return array
+ */
+function arkan_acf_page_location( $template, $slug ) {
+	$slugs  = function_exists( 'arkan_page_slugs' ) ? arkan_page_slugs() : array();
+	$actual = isset( $slugs[ $slug ] ) ? $slugs[ $slug ] : $slug;
+
+	return array(
+		array(
+			array(
+				'param'    => 'page_template',
+				'operator' => '==',
+				'value'    => 'page-templates/' . $template,
+			),
+		),
+		array(
+			array(
+				'param'    => 'arkan_page_slug',
+				'operator' => '==',
+				'value'    => $actual,
+			),
+		),
+	);
+}
+
+/**
  * Banner (page hero) sub-fields, reused by several groups.
  *
  * @return array
@@ -486,7 +519,7 @@ function arkan_acf_group_about_template() {
 		array(
 			'key'      => 'group_arkan_about_tpl',
 			'title'    => __( 'About Page', 'arkan' ),
-			'location' => array( array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/template-about.php' ) ) ),
+			'location' => arkan_acf_page_location( 'template-about.php', 'about' ),
 			'fields'   => array(
 				arkan_acf_tab( 'about_intro', __( 'Intro', 'arkan' ) ),
 				arkan_acf_f( 'about_subtitle', __( 'Subtitle', 'arkan' ), 'text', array( 'default_value' => 'About', 'wrapper' => array( 'width' => '50' ) ) ),
@@ -540,7 +573,7 @@ function arkan_acf_group_contact_template() {
 		array(
 			'key'      => 'group_arkan_contact_tpl',
 			'title'    => __( 'Contact Page', 'arkan' ),
-			'location' => array( array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/template-contact.php' ) ) ),
+			'location' => arkan_acf_page_location( 'template-contact.php', 'contact' ),
 			'fields'   => array(
 				arkan_acf_f(
 					'contact_locations',
@@ -585,7 +618,7 @@ function arkan_acf_group_gallery_template() {
 		array(
 			'key'      => 'group_arkan_gallery_tpl',
 			'title'    => __( 'Gallery Page', 'arkan' ),
-			'location' => array( array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/template-gallery.php' ) ) ),
+			'location' => arkan_acf_page_location( 'template-gallery.php', 'gallery' ),
 			'fields'   => array(
 				arkan_acf_f( 'gallery_subtitle', __( 'Subtitle', 'arkan' ), 'text', array( 'default_value' => 'Images', 'wrapper' => array( 'width' => '50' ) ) ),
 				arkan_acf_f( 'gallery_title', __( 'Title', 'arkan' ), 'text', array( 'default_value' => '<span>Image</span> Gallery', 'wrapper' => array( 'width' => '50' ) ) ),
@@ -604,7 +637,7 @@ function arkan_acf_group_faq_template() {
 		array(
 			'key'      => 'group_arkan_faq_tpl',
 			'title'    => __( 'FAQ Page', 'arkan' ),
-			'location' => array( array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/template-faq.php' ) ) ),
+			'location' => arkan_acf_page_location( 'template-faq.php', 'faq' ),
 			'fields'   => array(
 				arkan_acf_f(
 					'faq_items',
@@ -632,7 +665,7 @@ function arkan_acf_group_process_template() {
 		array(
 			'key'      => 'group_arkan_process_tpl',
 			'title'    => __( 'Process Page', 'arkan' ),
-			'location' => array( array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/template-process.php' ) ) ),
+			'location' => arkan_acf_page_location( 'template-process.php', 'process' ),
 			'fields'   => array(
 				arkan_acf_f( 'process_subtitle', __( 'Subtitle', 'arkan' ), 'text', array( 'default_value' => 'How We Work', 'wrapper' => array( 'width' => '50' ) ) ),
 				arkan_acf_f( 'process_title', __( 'Title', 'arkan' ), 'text', array( 'default_value' => 'Our <span>Process</span>', 'wrapper' => array( 'width' => '50' ) ) ),
@@ -663,7 +696,7 @@ function arkan_acf_group_services_template() {
 		array(
 			'key'      => 'group_arkan_services_tpl',
 			'title'    => __( 'Services Page', 'arkan' ),
-			'location' => array( array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/template-services.php' ) ) ),
+			'location' => arkan_acf_page_location( 'template-services.php', 'services' ),
 			'fields'   => array(
 				arkan_acf_f( 'services_intro', __( 'Intro Text', 'arkan' ), 'textarea', array( 'rows' => 3 ) ),
 				arkan_acf_f( 'services_count', __( 'Number of Services', 'arkan' ), 'number', array( 'default_value' => -1, 'instructions' => __( 'Use -1 to show all.', 'arkan' ) ) ),

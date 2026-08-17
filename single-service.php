@@ -56,6 +56,7 @@ while ( have_posts() ) :
 	/* --------------------------------------------------- Other services */
 	$others = arkan_query( 'service', -1, array( 'post__not_in' => array( $post_id ) ) );
 
+	// Nothing to cross-link to when this is the only service.
 	if ( $others->have_posts() ) :
 		?>
 		<section class="services section-padding">

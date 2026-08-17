@@ -15,11 +15,6 @@ if ( ! arkan_field( 'home_testimonials_enabled', $page_id, true ) ) {
 
 $query = arkan_query( 'testimonial', -1 );
 
-if ( ! $query->have_posts() ) {
-	wp_reset_postdata();
-	return;
-}
-
 $image    = arkan_image_url( arkan_field( 'home_testimonials_image', $page_id ), 'arkan-slider' );
 $image    = $image ? $image : ARKAN_URI . 'assets/images/slider/4.jpg';
 $overlay  = (int) arkan_field( 'home_testimonials_overlay', $page_id, 6 );
@@ -40,6 +35,10 @@ $title    = arkan_field( 'home_testimonials_title', $page_id );
 					<?php if ( $title ) : ?>
 						<div class="section-title"><?php echo wp_kses_post( $title ); ?></div>
 					<?php endif; ?>
+					<?php if ( ! $query->have_posts() ) : ?>
+						<?php arkan_empty_notice( __( 'testimonials', 'arkan' ), __( 'Testimonials', 'arkan' ) ); ?>
+					<?php endif; ?>
+
 					<div class="wrap">
 						<div class="owl-carousel owl-theme">
 							<?php

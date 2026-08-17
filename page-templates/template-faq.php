@@ -20,6 +20,12 @@ $items = arkan_field( 'faq_items', $page_id, array() );
 <section class="section-padding">
 	<div class="container">
 
+		<?php if ( empty( $items ) ) : ?>
+			<div class="row mb-5">
+				<?php arkan_empty_notice( __( 'questions', 'arkan' ), __( 'the “FAQ Page” panel on this page', 'arkan' ), 'col-md-12' ); ?>
+			</div>
+		<?php endif; ?>
+
 		<?php if ( ! empty( $items ) ) : ?>
 			<div class="row mb-5 animate-box" data-animate-effect="fadeInUp">
 				<div class="col-md-12">

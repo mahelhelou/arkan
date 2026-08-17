@@ -43,9 +43,9 @@ $query = arkan_query( 'service', $count );
 				endwhile;
 				wp_reset_postdata();
 			else :
-				?>
-				<div class="col-md-12"><p><?php esc_html_e( 'No services have been added yet.', 'arkan' ); ?></p></div>
-			<?php endif; ?>
+				arkan_empty_notice( __( 'services', 'arkan' ), __( 'Services', 'arkan' ), 'col-md-12' );
+			endif;
+			?>
 		</div>
 
 		<?php
